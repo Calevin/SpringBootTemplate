@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class BaseService<T, ID, R extends JpaRepository<T, ID>> {
+public abstract class BaseService<T, I, R extends JpaRepository<T, I>> {
     @Autowired
     protected R repository;
 
@@ -16,7 +16,7 @@ public abstract class BaseService<T, ID, R extends JpaRepository<T, ID>> {
         return repository.save(t);
     }
 
-    public Optional<T> findById(ID id) {
+    public Optional<T> findById(I id) {
         return repository.findById(id);
     }
 
@@ -36,7 +36,7 @@ public abstract class BaseService<T, ID, R extends JpaRepository<T, ID>> {
         repository.delete(t);
     }
 
-    public void deleteById(ID id) {
+    public void deleteById(I id) {
         repository.deleteById(id);
     }
 }
