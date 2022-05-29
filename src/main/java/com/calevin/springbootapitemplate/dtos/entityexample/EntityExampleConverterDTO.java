@@ -23,6 +23,6 @@ public abstract class EntityExampleConverterDTO {
 
     protected CategoryExample getCategoryExample(Long categoryId) {
         log.info("getCategoryExample, parameter categoryId: {}", categoryId);
-        return categoryExampleRepository.findById(categoryId).get();
+        return categoryExampleRepository.findById(categoryId).orElse(null);
     }
 }
