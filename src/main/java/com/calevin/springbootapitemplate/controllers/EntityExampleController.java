@@ -1,6 +1,7 @@
 package com.calevin.springbootapitemplate.controllers;
 
 import com.calevin.springbootapitemplate.entities.EntityExample;
+import com.calevin.springbootapitemplate.errors.NotFoundException;
 import com.calevin.springbootapitemplate.services.EntityExampleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +58,7 @@ public class EntityExampleController {
 
                     return ResponseEntity.ok(entityExampleService.save(entityExample));
                 })
-                .orElse(ResponseEntity.noContent().build());
+                .orElseThrow(() -> new NotFoundException(id));
     }
 
     @DeleteMapping("/entityExample/{id}")
