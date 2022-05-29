@@ -4,6 +4,8 @@ import com.calevin.springbootapitemplate.entities.EntityExample;
 import com.calevin.springbootapitemplate.services.EntityExampleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,45 +21,54 @@ public class EntityExampleController {
     }
 
     @GetMapping("/entityExample")
-    public List<EntityExample> getAll() {
+    public ResponseEntity<List<EntityExample>>  getAll() {
         log.info("getAll");
-        return entityExampleService.findAll();
+        List<EntityExample> entities = entityExampleService.findAll();
+
+        if(entities.isEmpty()){
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(entities);
+        }
     }
 
     @GetMapping("/entityExample/{id}")
-    public EntityExample getOne(@PathVariable Long id) {
+    public ResponseEntity<EntityExample> getOne(@PathVariable Long id) {
         log.info("getOne, id: {}", id);
-        return entityExampleService.findById(id).orElse(null);
+
+        return entityExampleService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.noContent().build());
     }
 
     @PostMapping("/entityExample")
-    public EntityExample newRecord(@RequestBody EntityExample newEntityExample) {
+    public ResponseEntity<EntityExample> newRecord(@RequestBody EntityExample newEntityExample) {
         log.info("newRecord");
-        return entityExampleService.save(newEntityExample);
+        return ResponseEntity.status(HttpStatus.CREATED).body(entityExampleService.save(newEntityExample));
     }
 
     @PutMapping("/entityExample/{id}")
-    public EntityExample editRecord(@RequestBody EntityExample entityExample, @PathVariable Long id) {
+    public ResponseEntity<EntityExample> editRecord(@RequestBody EntityExample entityExample, @PathVariable Long id) {
         log.info("editRecord, id: {}", id);
         return entityExampleService
                 .findById(id)
                 .map( p -> {
                     entityExample.setId(id);
-                    log.info(String.valueOf(entityExample));
-                    return entityExampleService.save(entityExample);
+
+                    return ResponseEntity.ok(entityExampleService.save(entityExample));
                 })
-                .orElse(null);
+                .orElse(ResponseEntity.noContent().build());
     }
 
     @DeleteMapping("/entityExample/{id}")
-    public EntityExample deleteRecord(@PathVariable Long id) {
+    public ResponseEntity<?> deleteRecord(@PathVariable Long id) {
         log.info("deleteRecord, id: {}", id);
         return entityExampleService
                 .findById(id)
                 .map( p -> {
                     entityExampleService.deleteById(id);
-                    return p;
+                    return ResponseEntity.status(HttpStatus.OK).build();
                 })
-                .orElse(null);
+                .orElse(ResponseEntity.noContent().build());
     }
 }
