@@ -18,16 +18,11 @@ public abstract class EntityExampleConverterDTO {
     @Mapping(target = "categoryName", source = "entityExample.category.name")
     public abstract GetEntityExampleDTO converterToGetEntityExampleDTO(EntityExample entityExample);
 
-    public EntityExample converterToEntityExample(CreateEntityExampleDTO createEntityExampleDTO) {
-        log.info("converterToEntityExample");
-        EntityExample entityExample = new EntityExample();
-        entityExample.setName(createEntityExampleDTO.getName());
-        entityExample.setDescription(createEntityExampleDTO.getDescription());
+    @Mapping(target = "category", expression = "java( getCategoryExample( createEntityExampleDTO.getCategoryId() ) )")
+    public abstract EntityExample converterToEntityExample(CreateEntityExampleDTO createEntityExampleDTO);
 
-        CategoryExample categoryExample = categoryExampleRepository.findById(createEntityExampleDTO.getCategoryId()).get();
-
-        entityExample.setCategory(categoryExample);
-
-        return entityExample;
+    protected CategoryExample getCategoryExample(Long categoryId) {
+        log.info("getCategoryExample, parameter categoryId: {}", categoryId);
+        return categoryExampleRepository.findById(categoryId).get();
     }
 }
