@@ -62,11 +62,12 @@ public class EntityExampleController {
     }
 
     @PutMapping("/entityExample/{id}")
-    public ResponseEntity<EntityExample> editRecord(@RequestBody EntityExample entityExample, @PathVariable Long id) {
+    public ResponseEntity<EntityExample> editRecord(CreateEntityExampleDTO editEntityExampleDTO, @PathVariable Long id) {
         log.info("editRecord, id: {}", id);
         return entityExampleService
                 .findById(id)
                 .map( p -> {
+                    EntityExample entityExample = converterDTO.converterToEntityExample(editEntityExampleDTO);
                     entityExample.setId(id);
 
                     return ResponseEntity.ok(entityExampleService.save(entityExample));
