@@ -11,7 +11,9 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class CategoryExample {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

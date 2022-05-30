@@ -10,8 +10,10 @@ import java.util.Objects;
 @Table(name = "entity_example")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder(toBuilder = true)
 @ToString
-@RequiredArgsConstructor
 public class EntityExample {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

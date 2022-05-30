@@ -6,6 +6,7 @@ import com.calevin.springbootapitemplate.dtos.entityexample.GetEntityExampleDTO;
 import com.calevin.springbootapitemplate.entities.EntityExample;
 import com.calevin.springbootapitemplate.errors.NotFoundException;
 import com.calevin.springbootapitemplate.services.EntityExampleService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,16 +18,11 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
+@AllArgsConstructor
 public class EntityExampleController {
 
     private final EntityExampleService entityExampleService;
-    @Autowired
     protected EntityExampleConverterDTO converterDTO;
-
-    @Autowired
-    public EntityExampleController(EntityExampleService entityExampleService) {
-        this.entityExampleService = entityExampleService;
-    }
 
     @GetMapping("/entityExample")
     public ResponseEntity<List<GetEntityExampleDTO>>  getAll() {
