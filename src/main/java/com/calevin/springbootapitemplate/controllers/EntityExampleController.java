@@ -58,7 +58,7 @@ public class EntityExampleController {
     }
 
     @PutMapping("/entityExample/{id}")
-    public ResponseEntity<EntityExample> editRecord(CreateEntityExampleDTO editEntityExampleDTO, @PathVariable Long id) {
+    public ResponseEntity<EntityExample> editRecord(@RequestBody CreateEntityExampleDTO editEntityExampleDTO, @PathVariable Long id) {
         log.info("editRecord, id: {}", id);
         return entityExampleService
                 .findById(id)
